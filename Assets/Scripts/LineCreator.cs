@@ -5,7 +5,6 @@ using UnityEngine;
 public class LineCreator : MonoBehaviour {
 
 	public GameObject linePrefab;
-    public GameObject testobject;
 
 	Line activeLine;
 
@@ -19,6 +18,8 @@ public class LineCreator : MonoBehaviour {
 
 		if (Input.GetMouseButtonUp(0))
 		{
+            activeLine.gameObject.AddComponent<Rigidbody2D>();
+            activeLine.GetComponent<Rigidbody2D>().centerOfMass = GetBoundsCenter(activeLine.transform);
             activeLine = null;
 		}
 
@@ -29,5 +30,18 @@ public class LineCreator : MonoBehaviour {
 		}
 
 	}
+
+    public Vector2 GetBoundsCenter(Transform t)
+    {
+        Renderer r = t.GetComponent<Renderer>();
+        if (r != null)
+        {
+            return r.bounds.center;
+        }
+        else
+        {
+            return t.position;
+        }
+    }
 
 }
